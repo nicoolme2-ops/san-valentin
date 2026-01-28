@@ -107,7 +107,7 @@ body {
     font-family: 'Dancing Script', cursive;
     font-size: 1.2rem;
     color: var(--color-detalle);
-    margin-top: 15px;
+    margin-top: 14px;
     line-height: 1.2;
 }
 
@@ -164,3 +164,4 @@ body {
     .contenedor-sobre { margin-top: 150px; scale: 0.9; }
     .contenedor-sobre.abierto .carta { height: 280px; transform: translateY(-110px); }
 }
+
