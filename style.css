@@ -18,18 +18,19 @@ body {
     background: radial-gradient(circle, #444 0%, #111 100%);
     font-family: 'Playfair Display', serif;
     overflow: hidden;
-    touch-action: manipulation; /* Optimiza toques en móvil */
+    touch-action: manipulation;
 }
 
 #tap-instruccion {
     position: absolute;
-    top: 15%;
+    top: 10%;
     color: white;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0.6;
     animation: palpitar 2s infinite;
+    z-index: 20;
 }
 
 @keyframes palpitar {
@@ -39,10 +40,12 @@ body {
 
 .contenedor-sobre {
     position: relative;
-    width: 320px; /* Tamaño ideal para móvil */
+    width: 320px;
     height: 220px;
     z-index: 10;
     transition: transform 0.5s ease;
+    /* Bajamos el sobre un poco para dar espacio a la carta que sube */
+    margin-top: 100px; 
 }
 
 .sobre {
@@ -71,10 +74,10 @@ body {
 
 .carta {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     left: 10px;
     width: 300px;
-    height: 180px;
+    height: 190px; /* Tamaño inicial */
     background-color: var(--color-papel);
     padding: 20px;
     box-sizing: border-box;
@@ -82,27 +85,47 @@ body {
     z-index: 2;
     text-align: center;
     border-radius: 3px;
-    overflow: hidden;
+    overflow-y: auto; /* Permite scroll interno si el texto fuera muy largo */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 .carta h2 {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--color-detalle);
     margin: 0 0 10px 0;
 }
 
 .carta p {
     font-size: 0.85rem;
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--color-texto);
+    margin: 8px 0;
 }
 
 .firma {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: var(--color-detalle);
-    margin-top: 10px;
+    margin-top: 15px;
+    line-height: 1.2;
+}
+
+/* ESTADO ABIERTO */
+.contenedor-sobre.abierto .sobre::before {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.contenedor-sobre.abierto .carta {
+    /* Reducimos el desplazamiento para que no salga de la pantalla */
+    transform: translateY(-130px); 
+    height: 320px; /* Altura final controlada para celulares */
+    z-index: 6;
+}
+
+.contenedor-sobre.abierto .sello {
+    opacity: 0;
 }
 
 .sello {
@@ -120,27 +143,6 @@ body {
     color: white;
     z-index: 11;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: opacity 0.4s;
-}
-
-/* CLASE ACTIVA (Para el toque en móvil y hover en PC) */
-.contenedor-sobre.abierto .sobre::before,
-.contenedor-sobre:hover .sobre::before {
-    transform: rotateX(180deg);
-    z-index: 1;
-}
-
-.contenedor-sobre.abierto .carta,
-.contenedor-sobre:hover .carta {
-    transform: translateY(-180px);
-    height: 380px;
-    z-index: 6;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-}
-
-.contenedor-sobre.abierto .sello,
-.contenedor-sobre:hover .sello {
-    opacity: 0;
 }
 
 /* Corazones */
@@ -155,4 +157,10 @@ body {
 
 @keyframes caida {
     to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Ajuste extra para pantallas muy pequeñas */
+@media (max-height: 600px) {
+    .contenedor-sobre { margin-top: 150px; scale: 0.9; }
+    .contenedor-sobre.abierto .carta { height: 280px; transform: translateY(-110px); }
 }
