@@ -1,10 +1,12 @@
-/* Definición de colores y variables */
+/* Importación de fuentes elegantes */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
 :root {
-    --color-fondo: #fce4ec;
+    --color-fondo: #f8d7da;
     --color-sobre: #d14d4d;
     --color-sobre-tapa: #e57373;
-    --color-papel: #fff9e6;
-    --color-texto: #4a4a4a;
+    --color-papel: #fffcf2;
+    --color-texto: #333333;
     --color-detalle: #b71c1c;
 }
 
@@ -14,48 +16,45 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, var(--color-fondo) 0%, #f8bbd0 100%);
-    font-family: 'Georgia', serif;
+    background: radial-gradient(circle, #fce4ec 0%, #f8bbd0 100%);
+    font-family: 'Playfair Display', serif;
     overflow: hidden;
 }
 
-/* Efecto de lluvia de corazones */
+/* Corazones de fondo */
 .corazon-caido {
     position: absolute;
     top: -10%;
     color: #ff8a80;
     user-select: none;
     z-index: 0;
-    pointer-events: none; /* Para que no interfieran con el clic */
+    pointer-events: none;
     animation: caida linear forwards;
 }
 
 @keyframes caida {
-    to {
-        transform: translateY(110vh) rotate(360deg);
-    }
+    to { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* Contenedor principal */
+/* Contenedor del sobre */
 .contenedor-sobre {
-    position: relative;
-    cursor: pointer;
-    z-index: 10;
-    transition: transform 0.3s ease;
-}
-
-.contenedor-sobre:hover {
-    transform: scale(1.02);
-}
-
-/* Base del sobre */
-.sobre {
     position: relative;
     width: 380px;
     height: 250px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* La base del sobre */
+.sobre {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-color: var(--color-sobre);
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: 5;
 }
 
 /* Tapa del sobre */
@@ -64,7 +63,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 10;
     border-left: 190px solid transparent;
     border-right: 190px solid transparent;
     border-top: 140px solid var(--color-sobre-tapa);
@@ -72,58 +71,58 @@ body {
     transition: transform 0.6s ease-in-out;
 }
 
-/* La Carta */
+/* La Carta (oculta dentro al inicio) */
 .carta {
     position: absolute;
-    bottom: 15px;
+    bottom: 10px; /* Dentro del sobre */
     left: 20px;
     width: 340px;
-    height: 220px;
+    height: 200px; /* Altura inicial pequeña para que no asome */
     background-color: var(--color-papel);
     padding: 30px;
     box-sizing: border-box;
     transition: transform 0.6s ease-in-out, height 0.6s ease-in-out;
-    z-index: 2;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 2; /* Debajo de la tapa pero arriba del fondo del sobre */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
     text-align: center;
-    overflow: hidden;
     border-radius: 5px;
 }
 
+/* Estilos de texto dentro de la carta */
 .carta h2 {
-    margin: 0 0 15px 0;
-    font-size: 1.2rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
     color: var(--color-detalle);
-    font-weight: bold;
+    margin: 0 0 15px 0;
 }
 
 .carta p {
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: var(--color-texto);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .firma {
-    margin-top: 20px;
-    font-style: italic;
-    font-size: 1rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
     color: var(--color-detalle);
+    margin-top: 15px;
 }
 
-/* Interacción: Al pasar el cursor o tocar */
+/* Animaciones al interactuar */
 .contenedor-sobre:hover .sobre::before {
     transform: rotateX(180deg);
-    z-index: 1;
+    z-index: 1; /* Al abrirse, pasa atrás de la carta */
 }
 
 .contenedor-sobre:hover .carta {
-    transform: translateY(-160px); /* Sube la carta */
-    height: 420px; /* Se expande para mostrar el texto de Santi */
-    z-index: 6;
+    transform: translateY(-200px); /* Sube la carta hacia afuera */
+    height: 400px; /* Crece para mostrar todo el contenido */
+    z-index: 4; /* Se posiciona por encima de la tapa abierta */
 }
 
-/* Sello de lacre */
+/* Sello de corazón */
 .sello {
     position: absolute;
     top: 45%;
@@ -138,20 +137,19 @@ body {
     align-items: center;
     color: white;
     font-size: 1.8rem;
-    z-index: 7;
+    z-index: 11; /* Siempre al frente hasta que se abra */
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: opacity 0.4s, transform 0.4s;
+    transition: opacity 0.4s;
 }
 
 .contenedor-sobre:hover .sello {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
 }
 
-/* Ajustes para móviles */
-@media (max-width: 400px) {
-    .sobre { width: 300px; height: 200px; }
-    .sobre::before { border-left-width: 150px; border-right-width: 150px; border-top-width: 110px; }
-    .carta { width: 270px; left: 15px; }
-    .contenedor-sobre:hover .carta { height: 380px; transform: translateY(-130px); }
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 420px) {
+    .contenedor-sobre { width: 320px; height: 210px; }
+    .sobre::before { border-left-width: 160px; border-right-width: 160px; border-top-width: 120px; }
+    .carta { width: 280px; }
+    .contenedor-sobre:hover .carta { transform: translateY(-180px); height: 380px; }
 }
