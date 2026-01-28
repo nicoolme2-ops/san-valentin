@@ -1,11 +1,10 @@
-/* Importación de fuentes elegantes */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
-    --color-fondo: #454545; /* Fondo oscuro tipo estudio como la imagen */
+    --color-fondo: #2c2c2c;
     --color-sobre: #d14d4d;
     --color-sobre-tapa: #e57373;
-    --color-papel: #fff9e6;
+    --color-papel: #fffcf2;
     --color-texto: #333333;
     --color-detalle: #b71c1c;
 }
@@ -16,17 +15,139 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: radial-gradient(circle, #555555 0%, #222222 100%);
+    background: radial-gradient(circle, #444 0%, #111 100%);
     font-family: 'Playfair Display', serif;
+    overflow: hidden;
+    touch-action: manipulation; /* Optimiza toques en móvil */
+}
+
+#tap-instruccion {
+    position: absolute;
+    top: 15%;
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    animation: palpitar 2s infinite;
+}
+
+@keyframes palpitar {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+.contenedor-sobre {
+    position: relative;
+    width: 320px; /* Tamaño ideal para móvil */
+    height: 220px;
+    z-index: 10;
+    transition: transform 0.5s ease;
+}
+
+.sobre {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-sobre);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    z-index: 5;
+}
+
+.sobre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 120px solid var(--color-sobre-tapa);
+    transform-origin: top;
+    transition: transform 0.6s ease-in-out;
+}
+
+.carta {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 300px;
+    height: 180px;
+    background-color: var(--color-papel);
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.7s ease-in-out, height 0.7s ease-in-out;
+    z-index: 2;
+    text-align: center;
+    border-radius: 3px;
     overflow: hidden;
 }
 
-/* Lluvia de corazones sutil */
+.carta h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--color-detalle);
+    margin: 0 0 10px 0;
+}
+
+.carta p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--color-texto);
+}
+
+.firma {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: var(--color-detalle);
+    margin-top: 10px;
+}
+
+.sello {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #b71c1c;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 11;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: opacity 0.4s;
+}
+
+/* CLASE ACTIVA (Para el toque en móvil y hover en PC) */
+.contenedor-sobre.abierto .sobre::before,
+.contenedor-sobre:hover .sobre::before {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.contenedor-sobre.abierto .carta,
+.contenedor-sobre:hover .carta {
+    transform: translateY(-180px);
+    height: 380px;
+    z-index: 6;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+}
+
+.contenedor-sobre.abierto .sello,
+.contenedor-sobre:hover .sello {
+    opacity: 0;
+}
+
+/* Corazones */
 .corazon-caido {
     position: absolute;
     top: -10%;
-    color: rgba(255, 138, 128, 0.6);
-    user-select: none;
+    color: #ff8a80;
     z-index: 0;
     pointer-events: none;
     animation: caida linear forwards;
@@ -35,99 +156,3 @@ body {
 @keyframes caida {
     to { transform: translateY(110vh) rotate(360deg); }
 }
-
-/* Contenedor del sobre con sombra profunda */
-.contenedor-sobre {
-    position: relative;
-    width: 400px;
-    height: 280px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-/* Base del sobre */
-.sobre {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-sobre);
-    border-radius: 0 0 10px 10px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-    z-index: 5;
-}
-
-/* Tapa del sobre (Triángulo superior) */
-.sobre::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    border-left: 200px solid transparent;
-    border-right: 200px solid transparent;
-    border-top: 150px solid var(--color-sobre-tapa);
-    transform-origin: top;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* La Carta (sale del interior) */
-.carta {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 360px;
-    height: 230px; /* Tamaño inicial contenido */
-    background-color: var(--color-papel);
-    padding: 35px;
-    box-sizing: border-box;
-    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), height 0.7s ease;
-    z-index: 2;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    text-align: center;
-    border-radius: 2px;
-}
-
-/* Tipografías como en la imagen */
-.carta h2 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.2rem;
-    color: var(--color-detalle);
-    margin: 0 0 15px 0;
-    font-weight: 700;
-}
-
-.carta p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-texto);
-    margin: 10px 0;
-}
-
-.carta strong {
-    color: #000;
-    display: block;
-    margin-top: 15px;
-}
-
-.firma {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
-    color: var(--color-detalle);
-    margin-top: 20px;
-}
-
-/* Efecto al pasar el mouse / tocar */
-.contenedor-sobre:hover .sobre::before {
-    transform: rotateX(180deg);
-    z-index: 1;
-}
-
-.contenedor-sobre:hover .carta {
-    transform: translateY(-220px); /* Sube hacia afuera */
-    height: 450px; /* Se alarga para mostrar el texto completo */
-    z-index: 6;
-}
-
-/* Sello de lacre circular con corazón */
-.s
