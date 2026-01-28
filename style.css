@@ -1,12 +1,157 @@
-/* Busca esta parte en tu style.css y actualízala */
-.contenedor-sobre:hover .carta { 
-    transform: translateY(-150px); /* Sube un poco más */
-    height: 400px; /* Más espacio para el texto largo */
-    z-index: 6; 
+/* Definición de colores y variables */
+:root {
+    --color-fondo: #fce4ec;
+    --color-sobre: #d14d4d;
+    --color-sobre-tapa: #e57373;
+    --color-papel: #fff9e6;
+    --color-texto: #4a4a4a;
+    --color-detalle: #b71c1c;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, var(--color-fondo) 0%, #f8bbd0 100%);
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+}
+
+/* Efecto de lluvia de corazones */
+.corazon-caido {
+    position: absolute;
+    top: -10%;
+    color: #ff8a80;
+    user-select: none;
+    z-index: 0;
+    pointer-events: none; /* Para que no interfieran con el clic */
+    animation: caida linear forwards;
+}
+
+@keyframes caida {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+/* Contenedor principal */
+.contenedor-sobre {
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.contenedor-sobre:hover {
+    transform: scale(1.02);
+}
+
+/* Base del sobre */
+.sobre {
+    position: relative;
+    width: 380px;
+    height: 250px;
+    background-color: var(--color-sobre);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Tapa del sobre */
+.sobre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    border-left: 190px solid transparent;
+    border-right: 190px solid transparent;
+    border-top: 140px solid var(--color-sobre-tapa);
+    transform-origin: top;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* La Carta */
+.carta {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    width: 340px;
+    height: 220px;
+    background-color: var(--color-papel);
+    padding: 30px;
+    box-sizing: border-box;
+    transition: transform 0.6s ease-in-out, height 0.6s ease-in-out;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.carta h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.2rem;
+    color: var(--color-detalle);
+    font-weight: bold;
 }
 
 .carta p {
     font-size: 0.95rem;
     line-height: 1.6;
-    margin: 10px 0;
+    color: var(--color-texto);
+    margin-bottom: 15px;
+}
+
+.firma {
+    margin-top: 20px;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--color-detalle);
+}
+
+/* Interacción: Al pasar el cursor o tocar */
+.contenedor-sobre:hover .sobre::before {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.contenedor-sobre:hover .carta {
+    transform: translateY(-160px); /* Sube la carta */
+    height: 420px; /* Se expande para mostrar el texto de Santi */
+    z-index: 6;
+}
+
+/* Sello de lacre */
+.sello {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-detalle);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8rem;
+    z-index: 7;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: opacity 0.4s, transform 0.4s;
+}
+
+.contenedor-sobre:hover .sello {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 400px) {
+    .sobre { width: 300px; height: 200px; }
+    .sobre::before { border-left-width: 150px; border-right-width: 150px; border-top-width: 110px; }
+    .carta { width: 270px; left: 15px; }
+    .contenedor-sobre:hover .carta { height: 380px; transform: translateY(-130px); }
 }
