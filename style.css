@@ -1,0 +1,94 @@
+:root {
+    --color-sobre: #d14d4d;
+    --color-papel: #fff9e6;
+    --color-texto: #4a4a4a;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+}
+
+/* Corazones animados */
+.corazon-caido {
+    position: absolute;
+    top: -10%;
+    color: #ff8a80;
+    user-select: none;
+    z-index: 0;
+    animation: caida linear forwards;
+}
+
+@keyframes caida {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Sobre e Interacción */
+.contenedor-sobre {
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.sobre {
+    position: relative;
+    width: 350px;
+    height: 230px;
+    background-color: var(--color-sobre);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.sobre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    border-left: 175px solid transparent;
+    border-right: 175px solid transparent;
+    border-top: 130px solid #e57373;
+    transform-origin: top;
+    transition: transform 0.6s ease-in-out;
+}
+
+.carta {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    width: 320px;
+    height: 190px;
+    background-color: var(--color-papel);
+    padding: 25px;
+    box-sizing: border-box;
+    transition: transform 0.6s ease-in-out, height 0.6s ease-in-out;
+    z-index: 2;
+    text-align: center;
+}
+
+.contenedor-sobre:hover .sobre::before { transform: rotateX(180deg); z-index: 1; }
+.contenedor-sobre:hover .carta { transform: translateY(-130px); height: 320px; z-index: 6; }
+
+.sello {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #b71c1c;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 7;
+    transition: opacity 0.4s;
+}
+
+.contenedor-sobre:hover .sello { opacity: 0; }
